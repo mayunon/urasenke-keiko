@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>裏千家 お点前一覧</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#eae6da;
+  --paper-deep:#e1dccb;
+  --ink:#2b2b26;
+  --ink-soft:#6b6558;
+  --line:#c9c2ac;
+  --furo:#5b7052;      /* 風炉=夏 若葉色 */
+  --furo-bg:#e4eadd;
+  --ro:#8a3d24;         /* 炉=冬 熾火色 */
+  --ro-bg:#ecdcd2;
+  --accent:#9a1f2b;     /* 印 朱 */
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-sizing: border-box;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#211f1a; --paper-deep:#191712; --ink:#e8e3d6; --ink-soft:#a39c89;
+    --line:#48423a; --furo-bg:#26301f; --ro-bg:#32211a;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#211f1a; --paper-deep:#191712; --ink:#e8e3d6; --ink-soft:#a39c89;
+  --line:#48423a; --furo-bg:#26301f; --ro-bg:#32211a;
+}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Zen Kaku Gothic New",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+header{
+  padding:2.2rem 1.4rem 1.4rem; text-align:center;
+  border-bottom:1px solid var(--line);
+  background:var(--paper-deep);
+}
+header h1{
+  font-family:"Shippori Mincho",serif; font-weight:700;
+  font-size:clamp(1.5rem,5vw,2.1rem); letter-spacing:.08em; margin:0 0 .3rem;
+}
+header p{margin:0; color:var(--ink-soft); font-size:.85rem; letter-spacing:.05em;}
+
+.controls{
+  max-width:760px; margin:0 auto; padding:1rem 1.2rem 0;
+}
+.search-row{display:flex; gap:.5rem; margin-bottom:.8rem;}
+.search-row input{
+  flex:1; padding:.6rem .8rem; border:1px solid var(--line); border-radius:2px;
+  background:var(--paper); color:var(--ink); font-family:inherit; font-size:.95rem;
+}
+.search-row input:focus{outline:2px solid var(--accent); outline-offset:1px;}
+
+.season-toggle{display:flex; gap:.5rem; margin-bottom:.9rem;}
+.season-toggle button{
+  flex:1; padding:.5rem .6rem; border:1px solid var(--line); background:var(--paper);
+  color:var(--ink-soft); font-family:"Shippori Mincho",serif; font-size:.9rem;
+  cursor:pointer; border-radius:2px; letter-spacing:.05em;
+}
+.season-toggle button[aria-pressed="true"].furo{background:var(--furo-bg); color:var(--furo); border-color:var(--furo);}
+.season-toggle button[aria-pressed="true"].ro{background:var(--ro-bg); color:var(--ro); border-color:var(--ro);}
+
+.cats{display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:1.2rem;}
+.cats button{
+  padding:.35rem .7rem; border:1px solid var(--line); background:transparent;
+  color:var(--ink-soft); font-size:.78rem; border-radius:20px; cursor:pointer;
+}
+.cats button[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+
+main{max-width:760px; margin:0 auto; padding:0 1.2rem 3rem;}
+.group{margin-top:1.6rem;}
+.group h2{
+  font-family:"Shippori Mincho",serif; font-size:1rem; font-weight:700;
+  margin:0 0 .2rem; padding-bottom:.35rem; border-bottom:2px solid var(--ink);
+  display:flex; align-items:baseline; gap:.5rem;
+}
+.group h2 span{font-size:.72rem; font-weight:400; color:var(--ink-soft); font-family:"Zen Kaku Gothic New",sans-serif;}
+
+.item{
+  display:flex; gap:.9rem; padding:.85rem 0; border-bottom:1px solid var(--line);
+  align-items:flex-start;
+}
+.item .name{
+  font-family:"Shippori Mincho",serif; font-weight:700; font-size:1rem;
+  min-width:7.4em; flex-shrink:0;
+}
+.item .name small{display:block; font-family:"Zen Kaku Gothic New",sans-serif; font-weight:400; font-size:.68rem; color:var(--ink-soft);}
+.item .desc{flex:1; font-size:.85rem; line-height:1.6; color:var(--ink-soft);}
+.badges{display:flex; gap:.3rem; flex-shrink:0; align-items:center; padding-top:.15rem;}
+.badge{
+  width:1.9em; height:1.9em; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:.62rem; border:1px solid var(--line); color:var(--line);
+}
+.badge.on.furo{background:var(--furo-bg); color:var(--furo); border-color:var(--furo);}
+.badge.on.ro{background:var(--ro-bg); color:var(--ro); border-color:var(--ro);}
+
+.item.kihon{flex-direction:column; align-items:stretch;}
+.item.kihon .name{min-width:0;}
+.steps-box{
+  margin-top:.7rem; border-radius:4px;
+  background:var(--paper-deep); border:1px solid var(--line);
+}
+.steps-box ol{margin:0; padding:.8rem .9rem .8rem 1.9em; font-size:.82rem; line-height:1.7; color:var(--ink);}
+.steps-box li{margin-bottom:.35em;}
+.steps-box li:last-child{margin-bottom:0;}
+
+.empty{text-align:center; color:var(--ink-soft); padding:3rem 1rem; font-size:.9rem;}
+footer{text-align:center; padding:1.5rem; color:var(--ink-soft); font-size:.72rem;}
+</style>
+</head>
+<body>
+<header>
+  <h1>裏千家 お点前一覧</h1>
+  <p>季節・分類で絞り込み、稽古の振り返りに</p>
+</header>
+
+<div class="controls">
+  <div class="search-row"><input id="q" type="text" placeholder="点前名で検索（例：貴人点、花月）"></div>
+  <div class="season-toggle">
+    <button class="furo" id="btnFuro" aria-pressed="false">風炉　5〜10月</button>
+    <button class="ro" id="btnRo" aria-pressed="false">炉　11〜4月</button>
+  </div>
+  <div class="cats" id="cats"></div>
+</div>
+
+<main id="main"></main>
+<footer>裏千家茶道の学習用まとめです。割稽古の所作は初心者向けの一例です。流儀や社中の指導により扱いが異なる場合があります。</footer>
+
+<script>
+// f=風炉薄茶, F=風炉濃茶, r=炉薄茶, R=炉濃茶 (1=あり)
+const DATA = [
+["割稽古","わりげいこ","点前に入る前に、動作をひとつずつ繰り返して身につける基本稽古",[
+  ["帛紗捌き","ふくさばき","帛紗をたたみ、四方捌きで道具を清める所作",1,1,1,1,[
+    "帛紗を右手で取り、左手のひらに乗せる",
+    "右手で右上の角をつまみ、手前に二つ折りにする",
+    "もう一度右手で角を持ち替え、小さな四角にたたむ",
+    "右手で角を整えながら三角形に持ち替える",
+    "手のひらの上でパンとひと打ちし、埃を払う心持ちで所作を締める"
+  ]],
+  ["帛紗のつけ方","","帛紗を腰につける・懐に入れる所作",1,1,1,1,[
+    "帛紗を三角にたたみ、輪の部分を下にする",
+    "女性は右腰、男性は左腰の帯に輪の方から挟み込む",
+    "点前中すぐ取り出せるよう、たるまない向きに整える"
+  ]],
+  ["茶筅通し","ちゃせんとおし","湯で茶筅の穂先を改め、点前の始まりを告げる所作",1,1,1,1,[
+    "茶碗に湯を八分目ほど入れる",
+    "茶筅を茶碗の中央に立て、穂先を湯にひたす",
+    "「一、二」と数えながら穂先を確かめる",
+    "「の」の字を書くように大きく一度茶筅を回す",
+    "穂先を軽く上下に振り、傷みやゆがみがないか確かめて茶碗の脇に置く"
+  ]],
+  ["茶碗の拭き方","","茶碗の湯を捨て、茶巾で拭き清める所作",1,1,1,1,[
+    "茶碗の湯（または水）を建水にあける",
+    "茶巾を茶碗の中に入れ、底を「の」の字を書くように拭く",
+    "茶碗の縁をぐるりと一周させて拭く",
+    "茶巾を取り出し、もとの畳み方に戻して茶碗の上に仕込む"
+  ]],
+  ["茶巾のたたみ方","","茶碗に仕込む茶巾を美しく折りたたむ所作",1,1,1,1,[
+    "水で絞った茶巾を長方形に広げる",
+    "縦半分に折り、長辺を合わせる",
+    "さらに三つ折りにして茶碗の口径に合う幅にする",
+    "輪になっている方を上にして茶碗の八時の位置あたりに仕込む"
+  ]],
+  ["棗の清め方","なつめ","帛紗で棗を清める所作。薄茶点前の基礎",1,1,1,1,[
+    "帛紗をさばき、小さくたたんだ状態にする",
+    "左手で棗を持ち、帛紗を右手に構える",
+    "棗の蓋の上を「こ」の字を書くように一度拭く",
+    "帛紗を握り直し、棗の胴を上から下へ一気に拭き下ろす",
+    "拭き終えたら棗を点前畳の定位置に置く"
+  ]],
+  ["茶杓の清め方","ちゃしゃく","帛紗で茶杓を清める所作。濃茶・薄茶共通の基礎",1,1,1,1,[
+    "棗を清めた帛紗をそのまま使い、茶杓を右手に取る",
+    "茶杓の節から櫂先（すくう部分）へ向けて帛紗で拭く",
+    "帛紗を持ち替え、櫂先の表を軽く整えるように拭く",
+    "拭き終えたら茶杓を棗の上、または点前畳に置く"
+  ]],
+  ["茶入の清め方","ちゃいれ","濃茶に用いる茶入を清め、仕覆を脱がせる所作",1,1,1,1,[
+    "仕覆（しふく）の紐をほどく",
+    "茶入を取り出し、仕覆は形を整えてたたんでおく",
+    "帛紗で茶入の蓋を清め、次に肩、胴の順に拭き下ろす",
+    "清めた茶入を点前畳の定位置に置く"
+  ]],
+  ["柄杓の扱い","ひしゃく","湯・水を汲み、置き柄杓・引き柄杓などを構える所作",1,1,1,1,[
+    "柄杓を右手で取り、釜や水指から湯・水を汲む",
+    "汲んだ湯・水を茶碗や茶筅通しなどに静かに注ぐ",
+    "柄を釜の口に預ける「置き柄杓」で一旦構えを整える",
+    "使い終えたら柄杓を建水の上に伏せて置く"
+  ]],
+]],
+["入門","","最も基本のお辞儀と部分稽古（割稽古）から始まる課目",[
+  ["盆略点前","","丸盆に道具をのせ、鉄瓶で行う最も簡略な薄茶点前",1,0,0,0],
+  ["運び点前","","風炉・炉以外の道具を運び出して行う点前",1,1,1,1],
+  ["棚点前","","点前座に棚を置き、水指・茶器を飾る点前",1,1,1,1],
+  ["長板","ながいた","水指・杓立・蓋置・建水を長板にすべて飾る点前",1,1,1,1],
+]],
+["小習前八ヶ条","","全16ヶ条のうち前半。茶道の基本を養う課目",[
+  ["貴人点","きにんだて","身分の高い方に差し上げる点前。貴人台を使う",1,1,1,1],
+  ["貴人清次","きにんきよつぐ","貴人とお供、両方にお茶を点てる点前",1,1,1,1],
+  ["茶入荘","ちゃいれかざり","由緒ある茶入を古帛紗に乗せて扱う点前",0,1,0,1],
+  ["茶碗荘","ちゃわんかざり","由緒ある茶碗を両手で扱う点前",0,1,0,1],
+  ["茶杓荘","ちゃしゃくかざり","由緒ある茶杓を古帛紗に乗せて拝見に出す点前",0,1,0,1],
+  ["茶筅荘","ちゃせんかざり","水指など茶筅以外の道具に由緒がある点前",0,1,0,1],
+  ["長緒茶入","ながおちゃいれ","緒の長い仕覆・大海茶入を使う点前",0,1,0,1],
+  ["重茶碗","かさねぢゃわん","客が多い時に濃茶茶碗を二つ重ねて使う点前",1,1,1,1],
+]],
+["小習後八ヶ条","","後半8ヶ条。応用的な扱いを学ぶ課目",[
+  ["包帛紗","つつみぶくさ","棗を帛紗で包み濃茶器代わりに扱う点前",0,1,0,1],
+  ["壺荘","つぼかざり","茶壺を席中に飾り、客が拝見する点前",1,1,1,1],
+  ["炭所望","すみしょもう","炭をつぐ役を客に所望する点前",1,0,1,0],
+  ["花所望","はなしょもう","花を入れる役を客に所望する点前",1,0,1,0],
+  ["入子点","いれこだて","通常の点前が難しい場合の簡易な点前",1,0,1,0],
+  ["盆香合","ぼんこうごう","由緒ある香合をお盆にのせて扱う炭点前",1,0,1,0],
+  ["軸荘","じくかざり","客前で名物の軸を掛ける点前",1,0,1,0],
+  ["大津袋","おおつぶくろ","棗を濃茶器として使う際に大津袋をかける点前",0,1,0,1],
+]],
+["特殊点前","","季節や趣向に応じた点前",[
+  ["逆勝手","ぎゃくがって","亭主の左に客が座る点前（炉は大炉）",1,1,1,1],
+  ["洗い茶巾","あらいちゃきん","茶巾を絞りたたみ直す、目にも涼しい夏の点前",1,0,0,0],
+  ["葉蓋","はぶた","水指の蓋の代わりに木の葉を用いる夏の点前",1,0,0,0],
+  ["名水点","めいすいだて","天然の湧水を使う点前",0,1,0,0],
+  ["流し点","ながしだて","少人数で話をしながら気軽に行う点前",1,0,1,0],
+  ["中置き","なかおき","風炉を畳中央に据える10月限定の点前",1,1,0,0],
+  ["続き薄","つづきうす","茶事で後炭を省き、濃茶から続けて薄茶を点てる",1,0,1,0],
+]],
+["炭手前","","茶事の中で炭をつぐ所作そのものを稽古する点前",[
+  ["初炭手前","しょずみ","茶事の最初に亭主が行う炭手前",1,0,1,0],
+  ["後炭手前","ごずみ","濃茶の後、薄茶に移る前に火を直す炭手前",1,0,1,0],
+]],
+["茶箱点","ちゃばこだて","茶箱を用いる点前。夏の風炉季のみ",[
+  ["卯の花","うのはな","盆を用いる最も簡素な茶箱点前",1,0,0,0],
+  ["雪","ゆき","盆を使わず掛合を用いる茶箱点前",1,0,0,0],
+  ["月","つき","器据を用い、道具を袋に入れて扱う茶箱点前",1,0,0,0],
+  ["花","はな","盆を用い、道具を袋に入れて扱う茶箱点前",1,0,0,0],
+  ["和敬","わけい","薄板を用いた最も簡略化された茶箱点前",1,0,0,0],
+  ["色紙","しきし","御所籠と四枚の古帛紗を用いる茶箱点前",1,0,0,0],
+]],
+["四ヶ伝","しかでん","名物の扱いを学ぶ、小習より一段上の課目",[
+  ["茶通箱","さつうばこ","2種の濃茶を同じ客に差し上げる点前",0,1,0,1],
+  ["唐物","からもの","唐物茶入を使う点前",0,1,0,1],
+  ["台天目","だいてんもく","天目茶碗を天目台にのせて扱う点前",0,1,0,1],
+  ["盆点","ぼんだて","唐物茶入を盆にのせて扱う点前",0,1,0,1],
+  ["和巾点","わきんだて","名物裂の古帛紗と仕覆で中次を扱う点前",0,1,0,1],
+]],
+["奥伝","おくでん","台子・大円盆を用いる奥秘の課目",[
+  ["行之行台子","ぎょうのぎょうだいす","行台子を用いる奥秘の基礎となる点前",1,0,1,0],
+  ["大円草","だいえんそう","大円盆を用いる格外の奥秘点前",1,0,1,0],
+  ["真之炭","しんのすみ","真台子で行う炭手前",1,0,1,0],
+  ["真之行台子","しんのぎょうだいす","真台子で行い、奥義の根本となる点前",1,0,1,0],
+  ["大円真","だいえんしん","大円盆と真台子で行う格外の奥秘点前",1,0,1,0],
+]],
+["七事式","しちじしき","5人以上・八畳以上で行う稽古法。花月百遍など",[
+  ["花月","かげつ","5人で札を引き、花は点前、月は喫茶を務める",1,0,1,0],
+  ["且座","さざ","客3人と亭主・半東の5人で役割を分けて行う",1,0,1,0],
+  ["廻り炭","まわりずみ","客と亭主が順に炭をつぐ。炉の時期のみ",0,0,1,0],
+  ["廻り花","まわりばな","客と亭主が順に一つの花入に花を入れる",1,0,1,0],
+  ["茶カブキ","ちゃかぶき","数種の濃茶を飲み、銘柄を当てる",1,0,1,0],
+  ["一二三","いちにさん","客が点数の札で亭主の点前を評価する",1,0,1,0],
+  ["員茶","かずちゃ","引いた札で当たった客が薄茶をいただく",1,0,1,0],
+]],
+];
+
+const catsEl = document.getElementById('cats');
+const mainEl = document.getElementById('main');
+const qEl = document.getElementById('q');
+const btnFuro = document.getElementById('btnFuro');
+const btnRo = document.getElementById('btnRo');
+
+let activeCat = 'all';
+let seasonFuro = false, seasonRo = false;
+
+DATA.forEach(([cat]) => {
+  const b = document.createElement('button');
+  b.textContent = cat;
+  b.setAttribute('aria-pressed','false');
+  b.onclick = () => { activeCat = (activeCat===cat)?'all':cat; render(); };
+  catsEl.appendChild(b);
+});
+
+function toggleSeason(which){
+  if(which==='furo'){ seasonFuro = !seasonFuro; }
+  else { seasonRo = !seasonRo; }
+  btnFuro.setAttribute('aria-pressed', seasonFuro);
+  btnRo.setAttribute('aria-pressed', seasonRo);
+  render();
+}
+btnFuro.onclick = () => toggleSeason('furo');
+btnRo.onclick = () => toggleSeason('ro');
+qEl.addEventListener('input', render);
+
+function render(){
+  [...catsEl.children].forEach(b => b.setAttribute('aria-pressed', b.textContent===activeCat));
+  const query = qEl.value.trim();
+  mainEl.innerHTML = '';
+  let shown = 0;
+
+  DATA.forEach(([cat, catKana, catNote, items]) => {
+    if(activeCat!=='all' && activeCat!==cat) return;
+    const filtered = items.filter(([name,kana,desc,f,F,r,R,steps]) => {
+      if(seasonFuro && !(f||F)) return false;
+      if(seasonRo && !(r||R)) return false;
+      if(query && !(name.includes(query) || kana.includes(query) || desc.includes(query))) return false;
+      return true;
+    });
+    if(!filtered.length) return;
+    shown += filtered.length;
+
+    const g = document.createElement('div');
+    g.className = 'group';
+    g.innerHTML = `<h2>${cat}${catNote?`<span>${catNote}</span>`:''}</h2>`;
+    filtered.forEach(([name,kana,desc,f,F,r,R,steps]) => {
+      const row = document.createElement('div');
+      if(steps){
+        row.className = 'item kihon';
+        const stepsHtml = steps.map(s => `<li>${s}</li>`).join('');
+        row.innerHTML = `
+          <div class="name">${name}${kana?`<small>${kana}</small>`:''}</div>
+          <div class="desc">${desc}</div>
+          <div class="steps-box"><ol>${stepsHtml}</ol></div>`;
+      } else {
+        row.className = 'item';
+        row.innerHTML = `
+          <div class="name">${name}${kana?`<small>${kana}</small>`:''}</div>
+          <div class="desc">${desc}</div>
+          <div class="badges">
+            <span class="badge ${f?'on furo':''}" title="風炉・薄茶">風薄</span>
+            <span class="badge ${F?'on furo':''}" title="風炉・濃茶">風濃</span>
+            <span class="badge ${r?'on ro':''}" title="炉・薄茶">炉薄</span>
+            <span class="badge ${R?'on ro':''}" title="炉・濃茶">炉濃</span>
+          </div>`;
+      }
+      g.appendChild(row);
+    });
+    mainEl.appendChild(g);
+  });
+
+  if(!shown){
+    mainEl.innerHTML = '<div class="empty">該当するお点前が見つかりませんでした</div>';
+  }
+}
+render();
+</script>
+</body>
+</html>
