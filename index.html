@@ -89,6 +89,8 @@ main{max-width:760px; margin:0 auto; padding:0 1.2rem 3rem;}
   display:flex; gap:.9rem; padding:.85rem 0; border-bottom:1px solid var(--line);
   align-items:flex-start;
 }
+.item.has-proc{flex-direction:column; align-items:stretch; gap:0;}
+.item-top{display:flex; gap:.9rem; align-items:flex-start;}
 .item .name{
   font-family:"Shippori Mincho",serif; font-weight:700; font-size:1rem;
   min-width:7.4em; flex-shrink:0;
@@ -103,15 +105,40 @@ main{max-width:760px; margin:0 auto; padding:0 1.2rem 3rem;}
 .badge.on.furo{background:var(--furo-bg); color:var(--furo); border-color:var(--furo);}
 .badge.on.ro{background:var(--ro-bg); color:var(--ro); border-color:var(--ro);}
 
+.name.expandable{cursor:pointer; display:inline-flex; align-items:baseline; gap:.35em;}
+.expand-arrow{font-size:.7rem; color:var(--ink-soft); transition:transform .2s; display:inline-block;}
+.name.expandable.open .expand-arrow{transform:rotate(90deg);}
+.expand-box{margin-top:.8rem;}
+.ref-link-wrap{margin:.6rem .9rem 0; padding-top:.6rem; border-top:1px solid var(--line);}
+.ref-link{
+  display:inline-block; font-size:.78rem; color:var(--accent); text-decoration:none;
+  border-bottom:1px solid var(--accent); padding-bottom:.1em;
+}
+.ref-link:active{opacity:.7;}
+
 .item.kihon{flex-direction:column; align-items:stretch;}
 .item.kihon .name{min-width:0;}
+.kihon-head{display:flex; flex-direction:column; align-items:flex-start; gap:.5rem;}
+.name-en{display:block; font-family:"Zen Kaku Gothic New",sans-serif; font-weight:400; font-size:.72rem; color:var(--ink-soft); font-style:italic; margin-top:.1em;}
+.desc-en{font-size:.8rem; color:var(--ink-soft); font-style:italic; margin-top:.25em;}
+.btn-group{display:flex; gap:.4rem; flex-wrap:wrap; justify-content:flex-start;}
+.speak-btn{
+  flex-shrink:0; padding:.35rem .75rem; border:1px solid var(--line); background:var(--paper);
+  color:var(--ink-soft); font-size:.72rem; border-radius:20px; cursor:pointer;
+  font-family:"Zen Kaku Gothic New",sans-serif; white-space:nowrap;
+}
+.speak-btn:active{opacity:.8;}
+.speak-btn.speaking{background:var(--accent); color:#fff; border-color:var(--accent);}
 .steps-box{
   margin-top:.7rem; border-radius:4px;
   background:var(--paper-deep); border:1px solid var(--line);
 }
 .steps-box ol{margin:0; padding:.8rem .9rem .8rem 1.9em; font-size:.82rem; line-height:1.7; color:var(--ink);}
-.steps-box li{margin-bottom:.35em;}
+.steps-box li{margin-bottom:.35em; transition:color .2s;}
 .steps-box li:last-child{margin-bottom:0;}
+.steps-box li.reading{color:var(--accent); font-weight:700;}
+.step-en{display:block; font-size:.76rem; color:var(--ink-soft); font-style:italic; margin-top:.15em;}
+.steps-box li.reading .step-en{color:var(--accent);}
 
 .empty{text-align:center; color:var(--ink-soft); padding:3rem 1rem; font-size:.9rem;}
 footer{text-align:center; padding:1.5rem; color:var(--ink-soft); font-size:.72rem;}
@@ -231,7 +258,34 @@ const DATA = [
   ]],
 ]],
 ["入門","","最も基本のお辞儀と部分稽古（割稽古）から始まる課目",[
-  ["盆略点前","","丸盆に道具をのせ、鉄瓶で行う最も簡略な薄茶点前",1,0,0,0],
+  ["盆略点前","","丸盆に道具をのせ、鉄瓶で行う最も簡略な薄茶点前",1,0,0,0,null,[
+    "瓶掛に湯を入れた鉄瓶をかけ、蓋を向こう向きに切っておく（水屋での準備）",
+    "山道盆の継ぎ目を手前に向け、棗と、茶巾・茶筅・茶杓を仕込んだ茶碗を縦に正面をそろえて並べる",
+    "お菓子を出したら、いったん水屋に下がる",
+    "盆を運び出して瓶掛の正面に置き、建水を持って盆の正面に座る。盆は両手で持ち、右に45度ほど向ける",
+    "帛紗で棗を清めて盆の10時の位置に、続けて茶杓を清めて4時の位置に置く",
+    "茶杓を棗の右横（1時）へ移し、茶巾を3時の位置に出す",
+    "帛紗で鉄瓶の蓋を閉め、左手で鉄瓶を持ち、帛紗で蓋を押さえながら茶碗に湯を入れる",
+    "帛紗を9時の位置に立てかけるように置く",
+    "茶筅通し（2度上げ3度打ち）をして、湯を建水にあけ、茶巾で茶碗を清める",
+    "茶杓を右手で持って膝に戻し、左手だけの挨拶でお菓子をすすめる",
+    "棗を左手で取り、右手で蓋を開けて、茶杓で抹茶を2杯茶碗に入れる。蓋を閉め、棗と茶杓を元の位置に戻す",
+    "帛紗を右手で取り、左手で鉄瓶を持って、帛紗で蓋を押さえながら茶碗に湯を注ぐ",
+    "茶筅で茶を点てる。仕上げは「の」の字を書くように6時の位置で止める",
+    "茶碗を左手にのせて2回まわし、正面を客に向けて定座に出す",
+    "客が飲み終えたら茶碗を受け取り、いったん左手にのせて正面を正してから盆に戻す",
+    "帛紗で鉄瓶の蓋を押さえながら茶碗に湯を入れ、建水に捨てる",
+    "客から「おしまい」の挨拶があれば右手だけで受け、「おしまいにさせていただきます」と挨拶する",
+    "再び茶碗に湯を入れ、仕舞いの茶筅通し（1度上げ2度打ち）をする",
+    "茶碗の水を建水に捨て、茶巾を茶碗に入れて正面に置く",
+    "茶筅を茶碗に入れ、茶杓を取って建水を引く",
+    "帛紗で茶杓を清め、茶碗に伏せて置く",
+    "棗を12時の位置に戻す",
+    "帛紗を建水の上で2度はたき、右に持ち替えて鉄瓶の蓋を切る",
+    "帛紗を打ち返して左手にのせ、腰につける",
+    "建水を持って立ち、水屋に下がる",
+    "再び席に入って盆正面に座り、盆を両手で持って水屋に下がる。茶道口右に置いて総礼し、襖を閉める"
+  ], "https://ocha-dangi.hatenablog.com/entry/bonryaku"],
   ["運び点前","","風炉・炉以外の道具を運び出して行う点前",1,1,1,1],
   ["棚点前","","点前座に棚を置き、水指・茶器を飾る点前",1,1,1,1],
   ["長板","ながいた","水指・杓立・蓋置・建水を長板にすべて飾る点前",1,1,1,1],
@@ -330,7 +384,254 @@ btnFuro.onclick = () => toggleSeason('furo');
 btnRo.onclick = () => toggleSeason('ro');
 qEl.addEventListener('input', render);
 
+const EN_KIHON = {
+  "襖の開け閉め": {
+    name: "Opening and Closing the Fusuma",
+    desc: "The proper way to quietly open and close the sliding door (fusuma) before entering the tea room",
+    steps: [
+      "Sit squarely in front of the fusuma (avoid touching the paper panel with your fingers)",
+      "Place the hand nearer your body's center on the pull, and open it about 5 cm",
+      "Move that hand to the edge, about 24–25 cm from the bottom, and slide the door open to the center",
+      "With the other hand, hold the edge at the same height and open the door the rest of the way",
+      "To close, use the nearer hand to pull the edge halfway shut, switch to the other hand to draw it close to the post, then close the remaining gap"
+    ]
+  },
+  "歩き方（席の出入り）": {
+    name: "Walking: Entering and Leaving the Room",
+    desc: "Foot movements used when stepping over the threshold to enter or leave the tea room",
+    steps: [
+      "When entering, sit properly about 16 tatami-mat threads in from the threshold",
+      "Raise the right knee slightly and stand up while stepping the right foot half a step forward",
+      "Step the left foot up to the threshold, then cross it with the right foot",
+      "When leaving, step the right foot up to the threshold and exit leading with the left foot",
+      "Bring the right foot alongside the left to turn, then draw the feet together"
+    ]
+  },
+  "居前のとり方": {
+    name: "Taking Your Position (Imae)",
+    desc: "The movement of entering the utensil mat from the main tea-room entrance and turning to face the temae (serving) area",
+    steps: [
+      "Step onto the utensil mat starting with the right foot",
+      "Step the left foot forward once, then bring the right foot up half a step",
+      "Draw the left foot back while opening the body",
+      "Face toward the left inner corner of the hearth frame and sit",
+      "When seated, keep the left knee from extending past the line of the hearth frame"
+    ]
+  },
+  "帛紗を懐中する": {
+    name: "Placing the Fukusa in the Kimono (Fukoro)",
+    desc: "Folding the fukusa cloth and tucking it into the breast of the kimono before the temae begins",
+    steps: [
+      "Hold the top edge of the fukusa and spread it so the folded loop (wasa) is on the right",
+      "Fold it in half away from you, then switch the top edge to the left hand",
+      "Slide the right hand across to turn it sideways, and fold it in half away from you again",
+      "Continue folding in the same sliding motion until it forms a small, roughly eight-fold shape",
+      "Cup it in the left hand, support it from below with the right, and tuck it into the breast of the kimono"
+    ]
+  },
+  "帛紗を腰につける": {
+    name: "Attaching the Fukusa at the Waist",
+    desc: "Taking the fukusa out from the kimono and arranging it into the posture used during the temae",
+    steps: [
+      "Take the fukusa out from the breast of the kimono and place it on the left palm",
+      "Open the near edge from left to right and fold it into quarters",
+      "Lower the far edge and stretch the fukusa into a horizontal triangle",
+      "Fold it in half away from you and align the left and right edges",
+      "Women tuck it in above the obi sash; men tuck it in below the obi sash"
+    ]
+  },
+  "帛紗捌き（基本）": {
+    name: "Fukusa Sabaki (Basic Purifying Fold)",
+    desc: "Unfolding and refolding the fukusa into a square before purifying the utensils",
+    steps: [
+      "Draw the fukusa slightly out from the waist, folding the bottom under as you pull it free",
+      "Bring it to the center in front of the knees and take the inside of the top edge with the right hand",
+      "Move the left hand diagonally, spreading the cloth side to side to stretch it into a triangle",
+      "Press the top of the fukusa with the left hand and raise the right hand from the elbow to hold it vertically",
+      "Fold the edge into thirds, fold it in half again, bring it back to face front, and smooth it with the index finger as if drawing a line, forming a neat quarter-fold"
+    ]
+  },
+  "草の四方捌き": {
+    name: "Sō no Yohō Sabaki (Simplified Four-Direction Fold)",
+    desc: "A simplified fukusa fold used in certain koshuu-level and other specific temae",
+    steps: [
+      "Slide the left hand to the left to open the fukusa flat",
+      "Perform the first pass without counting, watching how it unfolds",
+      "Repeat the left-hand sliding motion four times, as if forming a shelf above the left knee",
+      "On the fifth time, bring both hands together and use the right index finger to shape it into a triangle"
+    ]
+  },
+  "棗の清め方": {
+    name: "Purifying the Natsume (Thin-Tea Container)",
+    desc: "Purifying the natsume with the fukusa, including how to present it for viewing",
+    steps: [
+      "Fold the fukusa, hold it in the right hand, and tuck the bottom under with the left hand",
+      "Take the natsume from the side with the left hand and purify the top of the lid, tracing the shape of the character 'ko'",
+      "Purify the near side the same way, moving from left to right",
+      "Place the fukusa on the center of the lid, wipe it off while closing the hand around it, and set the natsume back down",
+      "When presenting it for viewing, open the lid after purifying and set it in front of the knees, purify the body of the container in the same 'ko' shape, then replace the lid"
+    ]
+  },
+  "茶杓の清め方": {
+    name: "Purifying the Chashaku (Tea Scoop)",
+    desc: "Using the same fukusa that purified the natsume to purify the chashaku",
+    steps: [
+      "Keep the fukusa that purified the natsume folded in quarters and place it on the left hand",
+      "Hold the end of the chashaku with the right hand and lay its tip parallel to the line of the knees, at the center",
+      "Fold the fukusa in half to give it some fullness, and wipe down to the tip",
+      "Turn the fukusa as you bring it back toward you, purifying both sides and wiping once more down to the tip",
+      "Finally purify just the top and bottom, draw the fukusa away in a half-circle motion, and return the chashaku to its place"
+    ]
+  },
+  "茶筅通し": {
+    name: "Chasen Tōshi (Whisk-Rinsing Check)",
+    desc: "Checking that the whisk's tines are not broken, marking the start of the temae",
+    steps: [
+      "Take the chasen from the side and rest its handle on the right rim of the bowl while supporting the bowl with the left hand",
+      "Switch grip so the thumb faces up, turn the chasen sideways, and lift it up",
+      "Rotate it inward from the elbow to check the condition of the tines, then quietly return it to the rim",
+      "Lift it once more, turn it toward you as you lower it, and lightly rinse the tines",
+      "Rotate the chasen as if tracing the character 'no', align the tines to face front, lift it out, and set it beside the bowl"
+    ]
+  },
+  "茶巾の扱い": {
+    name: "Handling the Chakin (Tea Cloth)",
+    desc: "Wringing and folding the chakin, then setting it inside the bowl",
+    steps: [
+      "Hold the chakin by opposite corners, fold it into quarters with a wringing motion, and squeeze it out well",
+      "Hold both corners of the wrung cloth and stretch it left and right to smooth out the wrinkles",
+      "Fold one third away from you, then fold it in half again to form thirds",
+      "Hold it vertically as you would a fukusa, fold it in half horizontally, and stretch it with the edges aligned",
+      "Fold the right half in two, fold in about a third more, and set it into the bowl (the rounded part is called the 'fukudame')"
+    ]
+  },
+  "茶碗の拭き方": {
+    name: "Wiping the Chawan (Tea Bowl)",
+    desc: "After the chasen tōshi, purifying the bowl with the chakin and resetting it",
+    steps: [
+      "After the chasen tōshi, empty the hot water from the bowl into the waste-water container",
+      "Take out the chakin, pinch the fukudame part, and hang it over the rim of the bowl",
+      "Hold the bowl firmly and rotate it while wiping with the chakin, repeating this three times",
+      "On the final half-turn, bring the front back around and set the bowl at the center in front of the knees",
+      "Remove the chakin, press it to the bottom, wipe the inside tracing the shapes of 'i' and 'ri', then set the chakin back in the bowl"
+    ]
+  },
+  "柄杓の扱い": {
+    name: "Handling the Hishaku (Water Ladle)",
+    desc: "Scooping hot or cold water and holding the ladle in the oki-bishaku, kiri-bishaku, and hiki-bishaku positions",
+    steps: [
+      "There are three types of hishaku — for the furo, for the ro, and the 'sashitōshi' type; the bowl that scoops water is the 'gō', the handle is the 'e', where the handle meets the bowl is the 'tsukigata', and the end of the handle is the 'kiridome'",
+      "Oki-bishaku: after scooping hot water for the chasen tōshi, resting the ladle naturally on the kettle",
+      "Kiri-bishaku: scooping the hot water for the tea, pouring it into the bowl, returning the rest to the kettle, and holding the ladle poised",
+      "Hiki-bishaku: after handling the closing chasen tōshi water, drawing the handle back 2–3 cm, aligning the fingers, and quietly resting it on the kettle",
+      "There are also set finger positions for scooping water from the kettle and for regripping the ladle"
+    ]
+  }
+};
+
+let voicesCache = [];
+function loadVoices(){
+  voicesCache = window.speechSynthesis.getVoices();
+}
+if('speechSynthesis' in window){
+  loadVoices();
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+const PREFERRED_VOICE_NAMES = [
+  'Google US English', 'Samantha', 'Alex', 'Ava', 'Natural',
+  'Microsoft Aria', 'Microsoft Jenny', 'Microsoft Guy',
+  'Google UK English Female', 'Google UK English Male'
+];
+
+function pickVoice(lang){
+  if(!voicesCache.length) voicesCache = window.speechSynthesis.getVoices();
+  const prefix = lang.split('-')[0].toLowerCase();
+  const candidates = voicesCache.filter(v => v.lang && v.lang.toLowerCase().startsWith(prefix));
+  if(!candidates.length) return null;
+  const exact = candidates.filter(v => v.lang.toLowerCase() === lang.toLowerCase());
+  const pool = exact.length ? exact : candidates;
+  for(const wanted of PREFERRED_VOICE_NAMES){
+    const match = pool.find(v => v.name.includes(wanted));
+    if(match) return match;
+  }
+  const local = pool.find(v => v.localService);
+  return local || pool[0];
+}
+
+let currentBtn = null;
+
+function clearHighlight(){
+  document.querySelectorAll('.steps-box li.reading').forEach(li => li.classList.remove('reading'));
+}
+
+function stopSpeaking(){
+  if('speechSynthesis' in window) window.speechSynthesis.cancel();
+  if(currentBtn){
+    currentBtn.textContent = currentBtn.dataset.label || '▶ 読み上げ';
+    currentBtn.classList.remove('speaking');
+  }
+  clearHighlight();
+  currentBtn = null;
+}
+
+const READING_FIXES = [
+  ['開け閉め', 'あけしめ'],
+  ['縁を持って', 'ふちをもって'],
+  ['開ける', 'あける']
+];
+
+function toSpeechText(text){
+  let out = text;
+  READING_FIXES.forEach(([from, to]) => {
+    out = out.split(from).join(to);
+  });
+  return out;
+}
+
+function speakKihon(queueTexts, lang, liEls, btn){
+  if(!('speechSynthesis' in window)){
+    alert('お使いの環境は読み上げに対応していません');
+    return;
+  }
+  const wasThis = (currentBtn === btn);
+  stopSpeaking();
+  if(wasThis) return;
+
+  let i = 0;
+  btn.textContent = lang.startsWith('ja') ? '■ 停止' : '■ Stop';
+  btn.classList.add('speaking');
+  currentBtn = btn;
+
+  function speakNext(){
+    clearHighlight();
+    if(i >= queueTexts.length){
+      stopSpeaking();
+      return;
+    }
+    if(i >= 1 && liEls[i-1]){
+      liEls[i-1].classList.add('reading');
+      liEls[i-1].scrollIntoView({block:'nearest', behavior:'smooth'});
+    }
+    const text = lang.startsWith('ja') ? toSpeechText(queueTexts[i]) : queueTexts[i];
+    const utter = new SpeechSynthesisUtterance(text);
+    const voice = pickVoice(lang);
+    if(voice){
+      utter.voice = voice;
+      utter.lang = voice.lang;
+    } else {
+      utter.lang = lang;
+    }
+    utter.rate = 0.95;
+    utter.onend = () => { i++; speakNext(); };
+    utter.onerror = () => { stopSpeaking(); };
+    window.speechSynthesis.speak(utter);
+  }
+  speakNext();
+}
+
 function render(){
+  stopSpeaking();
   [...catsEl.children].forEach(b => b.setAttribute('aria-pressed', b.textContent===activeCat));
   const query = qEl.value.trim();
   mainEl.innerHTML = '';
@@ -350,26 +651,140 @@ function render(){
     const g = document.createElement('div');
     g.className = 'group';
     g.innerHTML = `<h2>${cat}${catNote?`<span>${catNote}</span>`:''}</h2>`;
-    filtered.forEach(([name,kana,desc,f,F,r,R,steps]) => {
+    filtered.forEach(([name,kana,desc,f,F,r,R,steps,proc,procUrl]) => {
       const row = document.createElement('div');
       if(steps){
         row.className = 'item kihon';
-        const stepsHtml = steps.map(s => `<li>${s}</li>`).join('');
-        row.innerHTML = `
-          <div class="name">${name}${kana?`<small>${kana}</small>`:''}</div>
-          <div class="desc">${desc}</div>
-          <div class="steps-box"><ol>${stepsHtml}</ol></div>`;
+        const en = EN_KIHON[name];
+
+        const head = document.createElement('div');
+        head.className = 'kihon-head';
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'name';
+        nameDiv.innerHTML = `${name}${kana?`<small>${kana}</small>`:''}${en?`<span class="name-en">${en.name}</span>`:''}`;
+
+        const btnGroup = document.createElement('div');
+        btnGroup.className = 'btn-group';
+        const speakBtn = document.createElement('button');
+        speakBtn.type = 'button';
+        speakBtn.className = 'speak-btn';
+        speakBtn.dataset.label = '▶ 読み上げ';
+        speakBtn.textContent = speakBtn.dataset.label;
+        btnGroup.appendChild(speakBtn);
+
+        let enBtn = null;
+        if(en){
+          enBtn = document.createElement('button');
+          enBtn.type = 'button';
+          enBtn.className = 'speak-btn en';
+          enBtn.dataset.label = '▶ Read (EN)';
+          enBtn.textContent = enBtn.dataset.label;
+          btnGroup.appendChild(enBtn);
+        }
+
+        head.appendChild(nameDiv);
+        head.appendChild(btnGroup);
+
+        const descDiv = document.createElement('div');
+        descDiv.className = 'desc';
+        descDiv.textContent = desc;
+        if(en){
+          const descEn = document.createElement('div');
+          descEn.className = 'desc-en';
+          descEn.textContent = en.desc;
+          descDiv.appendChild(document.createElement('br'));
+          descDiv.appendChild(descEn);
+        }
+
+        const stepsBox = document.createElement('div');
+        stepsBox.className = 'steps-box';
+        const ol = document.createElement('ol');
+        const liEls = [];
+        steps.forEach((s, idx) => {
+          const li = document.createElement('li');
+          li.textContent = s;
+          if(en && en.steps[idx]){
+            const stepEn = document.createElement('span');
+            stepEn.className = 'step-en';
+            stepEn.textContent = en.steps[idx];
+            li.appendChild(stepEn);
+          }
+          ol.appendChild(li);
+          liEls.push(li);
+        });
+        stepsBox.appendChild(ol);
+
+        speakBtn.onclick = () => speakKihon([name + '。' + desc, ...steps], 'ja-JP', liEls, speakBtn);
+        if(enBtn){
+          enBtn.onclick = () => speakKihon([en.name + '. ' + en.desc, ...en.steps], 'en-US', liEls, enBtn);
+        }
+
+        row.appendChild(head);
+        row.appendChild(descDiv);
+        row.appendChild(stepsBox);
       } else {
         row.className = 'item';
-        row.innerHTML = `
-          <div class="name">${name}${kana?`<small>${kana}</small>`:''}</div>
-          <div class="desc">${desc}</div>
-          <div class="badges">
+
+        const itemTop = document.createElement('div');
+        itemTop.className = 'item-top';
+
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'name';
+        nameDiv.innerHTML = `${name}${kana?`<small>${kana}</small>`:''}`;
+
+        const descDiv = document.createElement('div');
+        descDiv.className = 'desc';
+        descDiv.textContent = desc;
+
+        const badgesDiv = document.createElement('div');
+        badgesDiv.className = 'badges';
+        badgesDiv.innerHTML = `
             <span class="badge ${f?'on furo':''}" title="風炉・薄茶">風薄</span>
             <span class="badge ${F?'on furo':''}" title="風炉・濃茶">風濃</span>
             <span class="badge ${r?'on ro':''}" title="炉・薄茶">炉薄</span>
-            <span class="badge ${R?'on ro':''}" title="炉・濃茶">炉濃</span>
-          </div>`;
+            <span class="badge ${R?'on ro':''}" title="炉・濃茶">炉濃</span>`;
+
+        itemTop.appendChild(nameDiv);
+        itemTop.appendChild(descDiv);
+        itemTop.appendChild(badgesDiv);
+        row.appendChild(itemTop);
+
+        if(proc){
+          row.classList.add('has-proc');
+          nameDiv.classList.add('expandable');
+          nameDiv.innerHTML += '<span class="expand-arrow">▸</span>';
+
+          const expandBox = document.createElement('div');
+          expandBox.className = 'steps-box expand-box';
+          expandBox.hidden = true;
+          const ol = document.createElement('ol');
+          proc.forEach(s => {
+            const li = document.createElement('li');
+            li.textContent = s;
+            ol.appendChild(li);
+          });
+          expandBox.appendChild(ol);
+
+          if(procUrl){
+            const refP = document.createElement('p');
+            refP.className = 'ref-link-wrap';
+            const refA = document.createElement('a');
+            refA.href = procUrl;
+            refA.target = '_blank';
+            refA.rel = 'noopener noreferrer';
+            refA.className = 'ref-link';
+            refA.textContent = '参考ページを見る ↗';
+            refP.appendChild(refA);
+            expandBox.appendChild(refP);
+          }
+
+          nameDiv.onclick = () => {
+            const open = !expandBox.hidden;
+            expandBox.hidden = open;
+            nameDiv.classList.toggle('open', !open);
+          };
+          row.appendChild(expandBox);
+        }
       }
       g.appendChild(row);
     });
